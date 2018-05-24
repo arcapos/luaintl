@@ -161,10 +161,8 @@ luaopen_intl(lua_State *L)
 	lua_pushliteral(L, "Lua binding for libintl");
 	lua_settable(L, -3);
 	lua_pushliteral(L, "_VERSION");
-	lua_pushliteral(L, "intl 1.2.0");
+	lua_pushliteral(L, "intl 1.3.0");
 	lua_settable(L, -3);
 
-	/* XXX this should be done in the application */
-	lua_register(L, "_", lua_gettext);
 	return 1;
 }
