@@ -134,6 +134,25 @@ lua_dcngettext(lua_State *L)
 	return 1;
 }
 
+static int
+lua_setlocale(lua_State *L)
+{
+	char *locale;
+
+	if (lua_gettop(L) < 2)
+		locale = setlocale(category[luaL_checkoption(L, 1, NULL,
+		    category_names)], NULL);
+	else
+		locale = setlocale(category[luaL_checkoption(L, 1, NULL,
+		    category_names)], luaL_checkstring(L, 2));
+
+	if (locale == NULL)
+		lua_pushnil(L);
+	else
+		lua_pushstring(L, locale);
+	return 1;
+}
+
 static luaL_Reg gettext_functions[] = {
 	{ "bindtextdomain",		lua_bindtextdomain },
 	{ "bind_textdomain_codeset",	lua_bind_textdomain_codeset },
@@ -144,6 +163,7 @@ static luaL_Reg gettext_functions[] = {
 	{ "ngettext",			lua_ngettext },
 	{ "dngettext",			lua_dngettext },
 	{ "dcngettext",			lua_dcngettext },
+	{ "setlocale",			lua_setlocale },
 	{ NULL,				NULL }
 };
 
@@ -161,7 +181,7 @@ luaopen_intl(lua_State *L)
 	lua_pushliteral(L, "Lua binding for libintl");
 	lua_settable(L, -3);
 	lua_pushliteral(L, "_VERSION");
-	lua_pushliteral(L, "intl 1.3.0");
+	lua_pushliteral(L, "intl 1.3.1		");
 	lua_settable(L, -3);
 
 	return 1;
