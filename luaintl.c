@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 - 2018 by Micro Systems Marc Balmer,
+ * Copyright (c) 2013 - 2019 by Micro Systems Marc Balmer,
  * CH-5073 Gipf-Oberfrick, Switzerland. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,6 +64,25 @@ lua_bindtextdomain(lua_State *L)
 	return 1;
 }
 
+static int category[] = {
+	LC_CTYPE, LC_NUMERIC, LC_TIME, LC_COLLATE, LC_MONETARY, LC_MESSAGES,
+	LC_ALL,
+#ifdef __linux__
+	LC_PAPER, LC_NAME, LC_ADDRESS, LC_TELEPHONE, LC_MEASUREMENT,
+	LC_IDENTIFICATION
+#endif
+};
+
+static const char *category_names[] = {
+	"LC_CTYPE", "LC_NUMERIC", "LC_TIME", "LC_COLLATE", "LC_MONETARY",
+	"LC_MESSAGES", "LC_ALL",
+#ifdef __linux__
+	"LC_PAPER", "LC_NAME", "LC_ADDRESS", "LC_TELEPHONE", "LC_MEASUREMENT",
+	"LC_IDENTIFICATION",
+#endif
+	NULL
+};
+
 static int
 lua_gettext(lua_State *L)
 {
@@ -83,7 +102,8 @@ static int
 lua_dcgettext(lua_State *L)
 {
 	lua_pushstring(L, dcgettext(lua_tolstring(L, 1, NULL),
-	    luaL_checkstring(L, 2), luaL_checkinteger(L, 3)));
+	    luaL_checkstring(L, 2),
+	    category[luaL_checkoption(L, 3, NULL, category_names)]));
 	return 1;
 }
 
@@ -134,6 +154,34 @@ lua_dcngettext(lua_State *L)
 	return 1;
 }
 
+#ifdef HAVE_PGETTEXT
+static int
+lua_pgettext(lua_State *L)
+{
+	lua_pushstring(L, pgettext(luaL_checkstring(L, 1),
+	    luaL_checkstring(L, 2));
+	return 1;
+}
+
+static int
+lua_dpgettext(lua_State *L)
+{
+	lua_pushstring(L, dpgettext(luaL_checkstring(L, 1),
+	    luaL_checkstring(L, 2), luaL_checkstring(L, 3));
+	return 1;
+}
+
+
+static int
+lua_dcpgettext(lua_State *L)
+{
+	lua_pushstring(L, dcpgettext(lua_tolstring(L, 1, NULL),
+	    luaL_checkstring(L, 2), luaL_checkstring(L, 3),
+	    category[luaL_checkoption(L, 4, NULL, category_names)]));
+	return 1;
+}
+#endif
+
 static int
 lua_setlocale(lua_State *L)
 {
@@ -163,6 +211,11 @@ static luaL_Reg gettext_functions[] = {
 	{ "ngettext",			lua_ngettext },
 	{ "dngettext",			lua_dngettext },
 	{ "dcngettext",			lua_dcngettext },
+#ifdef HAVE_PGETTEXT
+	{ "pgettext",			lua_pgettext },
+	{ "dpgettext",			lua_dpgettext },
+	{ "dcpgettext",			lua_dcpgettext },
+#endif
 	{ "setlocale",			lua_setlocale },
 	{ NULL,				NULL }
 };
