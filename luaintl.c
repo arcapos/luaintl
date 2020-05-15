@@ -125,24 +125,6 @@ lua_dngettext(lua_State *L)
 	return 1;
 }
 
-static int category[] = {
-	LC_CTYPE, LC_NUMERIC, LC_TIME, LC_COLLATE, LC_MONETARY, LC_MESSAGES,
-	LC_ALL,
-#ifdef __linux__
-	LC_PAPER, LC_NAME, LC_ADDRESS, LC_TELEPHONE, LC_MEASUREMENT,
-	LC_IDENTIFICATION
-#endif
-};
-
-static const char *category_names[] = {
-	"LC_CTYPE", "LC_NUMERIC", "LC_TIME", "LC_COLLATE", "LC_MONETARY",
-	"LC_MESSAGES", "LC_ALL",
-#ifdef __linux__
-	"LC_PAPER", "LC_NAME", "LC_ADDRESS", "LC_TELEPHONE", "LC_MEASUREMENT",
-	"LC_IDENTIFICATION",
-#endif
-	NULL
-};
 
 static int
 lua_dcngettext(lua_State *L)
