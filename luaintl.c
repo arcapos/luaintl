@@ -206,10 +206,10 @@ int
 luaopen_intl(lua_State *L)
 {
 	setlocale(LC_ALL, "");
-#if LUA_VERSION_NUM == 501
-	luaL_register(L, "intl", gettext_functions);
-#else
+#if LUA_VERSION_NUM >= 502
 	luaL_newlib(L, gettext_functions);
+#else
+	luaL_register(L, "intl", gettext_functions);
 #endif
 	lua_pushliteral(L, "_COPYRIGHT");
 	lua_pushliteral(L, "Copyright (C) 2013 - 2018 micro systems marc "
