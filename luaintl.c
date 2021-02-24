@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 - 2019 by Micro Systems Marc Balmer,
+ * Copyright (c) 2013 - 2021 by Micro Systems Marc Balmer,
  * CH-5073 Gipf-Oberfrick, Switzerland. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -212,7 +212,7 @@ luaopen_intl(lua_State *L)
 	luaL_register(L, "intl", gettext_functions);
 #endif
 	lua_pushliteral(L, "_COPYRIGHT");
-	lua_pushliteral(L, "Copyright (C) 2013 - 2018 micro systems marc "
+	lua_pushliteral(L, "Copyright (C) 2013 - 2021 micro systems marc "
 	    "balmer.  All rights reserved.");
 	lua_settable(L, -3);
 	lua_pushliteral(L, "_DESCRIPTION");
