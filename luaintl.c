@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 - 2021 by Micro Systems Marc Balmer,
+ * Copyright (c) 2013 - 2024 by Micro Systems Marc Balmer,
  * CH-5073 Gipf-Oberfrick, Switzerland. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ lua_bindtextdomain(lua_State *L)
 static int category[] = {
 	LC_CTYPE, LC_NUMERIC, LC_TIME, LC_COLLATE, LC_MONETARY, LC_MESSAGES,
 	LC_ALL,
-#ifdef __linux__
+#ifdef LC_PAPER
 	LC_PAPER, LC_NAME, LC_ADDRESS, LC_TELEPHONE, LC_MEASUREMENT,
 	LC_IDENTIFICATION
 #endif
@@ -76,7 +76,7 @@ static int category[] = {
 static const char *category_names[] = {
 	"LC_CTYPE", "LC_NUMERIC", "LC_TIME", "LC_COLLATE", "LC_MONETARY",
 	"LC_MESSAGES", "LC_ALL",
-#ifdef __linux__
+#ifdef LC_PAPER
 	"LC_PAPER", "LC_NAME", "LC_ADDRESS", "LC_TELEPHONE", "LC_MEASUREMENT",
 	"LC_IDENTIFICATION",
 #endif
@@ -206,20 +206,16 @@ int
 luaopen_intl(lua_State *L)
 {
 	setlocale(LC_ALL, "");
-#if LUA_VERSION_NUM >= 502
 	luaL_newlib(L, gettext_functions);
-#else
-	luaL_register(L, "intl", gettext_functions);
-#endif
 	lua_pushliteral(L, "_COPYRIGHT");
-	lua_pushliteral(L, "Copyright (C) 2013 - 2021 micro systems marc "
+	lua_pushliteral(L, "Copyright (C) 2013 - 2024 micro systems marc "
 	    "balmer.  All rights reserved.");
 	lua_settable(L, -3);
 	lua_pushliteral(L, "_DESCRIPTION");
 	lua_pushliteral(L, "Lua binding for libintl");
 	lua_settable(L, -3);
 	lua_pushliteral(L, "_VERSION");
-	lua_pushliteral(L, "intl 1.3.1		");
+	lua_pushliteral(L, "intl 1.3.3");
 	lua_settable(L, -3);
 
 	return 1;
